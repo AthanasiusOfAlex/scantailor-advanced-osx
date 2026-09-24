@@ -1,21 +1,38 @@
-# Scantailor Advanced MacOS edition
-![scantailor-advanced-osx](./assets/img/Screenshot_2022-05-08.png "Scantailor Advanced (MACOS edition)")
+# ScanTailor Advanced (macOS Edition)
 
-## Download the app
+![scantailor-advanced-osx](./assets/img/Screenshot_2022-05-08.png "ScanTailor Advanced (macOS Edition)")
 
-- [MacOS 12 (Monterey)](https://github.com/yb85/scantailor-advanced-osx/releases/download/1.0.18/Scantailor-Advanced-v1.0.18-20220508-macos12.dmg "MacOS 12 (Monterey)")
-- [MacOS 10-11 (Catalina, Big Sur, ...)](https://github.com/yb85/scantailor-advanced-osx/releases/download/1.0.18/Scantailor-Advanced-v1.0.18-20220508-macos12.dmg "MacOS 10-11 (Catalina, Big Sur, ...)")
+Native macOS packaging and App bundler for [ScanTailor Advanced](https://github.com/ScanTailor-Advanced/scantailor-advanced) (v1.2.1), built for **Apple Silicon (ARM64)** and **Intel (x86_64)** with the **Qt 6** framework.
 
-## Install from the command-line
+## Download Pre-built App
 
-For the latest release :
+Pre-built `.dmg` installers are available on the [Releases](https://github.com/AthanasiusOfAlex/scantailor-advanced-osx/releases) page.
+
+## Install via Homebrew
+
+```bash
+brew tap AthanasiusOfAlex/scantailor-advanced-osx
+brew install scantailor-advanced
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/yb85/scantailor-advanced-osx/HEAD/install.sh)"
+
+To run:
+```bash
+scantailor-advanced &
+# or
+scantailor &
 ```
 
-To install the `HEAD` (bleeding edge) run instead :
+## Automated Install Script
 
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/AthanasiusOfAlex/scantailor-advanced-osx/HEAD/install.sh)"
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/yb85/scantailor-advanced-osx/HEAD/install.sh)" install --HEAD
 
+To install the bleeding edge (`HEAD`):
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/AthanasiusOfAlex/scantailor-advanced-osx/HEAD/install.sh)" --HEAD
 ```
+
+## Source Code & Documentation
+
+Visit the GitHub repository: [AthanasiusOfAlex/scantailor-advanced-osx](https://github.com/AthanasiusOfAlex/scantailor-advanced-osx)

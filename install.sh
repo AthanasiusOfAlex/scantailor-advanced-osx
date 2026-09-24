@@ -1,48 +1,58 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# ==============================================================================
+# ScanTailor Advanced Automated Installer for macOS
+# Configures Homebrew (if needed), taps the repository, and installs
+# ScanTailor Advanced natively for Apple Silicon (ARM64) or Intel (x86_64).
+# ==============================================================================
 
-cyan=`tput setaf 6`
-reset=`tput sgr0`
-pref="${cyan}[SCANTAILOR INSTALLER] ${reset}"
+set -euo pipefail
 
+CYAN="$(tput setaf 6 2>/dev/null || true)"
+GREEN="$(tput setaf 2 2>/dev/null || true)"
+RESET="$(tput sgr0 2>/dev/null || true)"
+PREF="${CYAN}[SCANTAILOR INSTALLER]${RESET}"
 
+echo "${PREF} Checking prerequisites..."
 
-if ! command -v brew &> /dev/null
-then
-while true; do
-    read -p "$pref Could not find the HOMEBREW package manager. Do you want to install it ? [Y/N]" yn
-    case $yn in
-        [Yy]* ) /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
-                if [[ $(uname -m) == 'arm64' ]]; then
-                    echo "export PATH=/opt/homebrew/bin:$PATH" >>  "$USER/.bashrc" ;
-                fi
-                source "$USER/.bashrc" ;
-                brew update; break;;
-        [Nn]* ) echo "$pref Installation aborted."; exit;;
-        * ) echo "$pref Please answer yes or no [Y/N]";;
-    esac
-done
+# Check Homebrew
+if ! command -v brew &>/dev/null; then
+  echo "${PREF} Homebrew package manager was not found."
+  read -r -p "${PREF} Do you want to install Homebrew now? [y/N] " yn
+  case "$yn" in
+    [Yy]*)
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      if [[ "$(uname -m)" == "arm64" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        PROFILE="$HOME/.zprofile"
+        [[ "${SHELL:-}" == *"bash"* ]] && PROFILE="$HOME/.bash_profile"
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "${PROFILE}"
+      fi
+      ;;
+    *)
+      echo "${PREF} Installation aborted. Homebrew is required."
+      exit 1
+      ;;
+  esac
 fi
 
-if ! command -v git &> /dev/null
-then
-while true; do
-    read -p "$pref Could not find the GIT version control system. Do you want to install it ? [Y/N]" yn
-    case $yn in
-        [Yy]* ) brew install git && source "$USER/.bashrc"; break;;
-        [Nn]* ) echo "$pref Installation aborted."; exit;;
-        * ) echo "$pref Please answer yes or no [Y/N]";;
-    esac
-done
+# Ensure brew environment is active
+if [[ "$(uname -m)" == "arm64" && -x "/opt/homebrew/bin/brew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-temp_dir="$(mktemp -d)" && \
-    git clone "https://github.com/yb85/scantailor-advanced-osx.git" "${temp_dir}" && \
-    cd "${temp_dir}/" && \
-    brew install --formula $1 ./scantailor.rb && \
-    echo "$pref Succesfuly installed SCANTAILOR, done."
+echo "${PREF} Adding ScanTailor Advanced tap..."
+brew tap AthanasiusOfAlex/scantailor-advanced-osx
 
+echo "${PREF} Installing ScanTailor Advanced..."
+brew install athanasiusofalex/scantailor-advanced-osx/scantailor-advanced "$@"
 
-        
-
-
-
+echo ""
+echo "${GREEN}✔ ScanTailor Advanced has been successfully installed!${RESET}"
+echo ""
+echo "To run it from the command line:"
+echo "  scantailor-advanced &"
+echo "or"
+echo "  scantailor &"
+echo ""
+echo "To create a standalone macOS .app bundle and .dmg installer:"
+echo "  cd /path/to/scantailor-advanced-osx/bundler && ./bundle.sh"

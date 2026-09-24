@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>ScanTailor.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.ScanTailor</string>
+	<string>com.scantailor-advanced.scantailor</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -23,14 +23,13 @@
 	<key>CFBundleVersion</key>
 	<string>${BundleVersion}</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.7.0</string>
+	<string>12.0.0</string>
 	<key>LSUIElement</key>
 	<false/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

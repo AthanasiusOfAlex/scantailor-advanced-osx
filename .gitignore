@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+*/.DS_Store
+.AppleDouble
+.LSOverride
+
+# Build artifacts
+*.app
+*.app/
+*.dmg
+build/
+*.o
+*.dylib
+*.a
+
+# Temporary files
+*.tmp
+*~
+dmg_staging/

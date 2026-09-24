@@ -1,118 +1,125 @@
-# scantailor-advanced-osx
-Homebrew formula and App bundler for Scantailor (Advanced). Now uses Qt6 framework.
+# ScanTailor Advanced for macOS
 
-> [!WARNING] 
-> No more App bundles !
->
-> To run homemade .app bundles you need to pay 99€/year to Apple which I do not want to pay.
+macOS packaging, Homebrew tap, and native App bundler for [ScanTailor Advanced](https://github.com/ScanTailor-Advanced/scantailor-advanced) (v1.2.1).
 
-See [4lex4/scantailor-advanced](https://github.com/4lex4/scantailor-advanced) for the original project.
-The original project seems to be abandoned, this formula now fetches from the community project [ScanTailor-Advanced/scantailor-advanced](https://github.com/ScanTailor-Advanced/scantailor-advanced)
+Built natively for **Apple Silicon (ARM64)** and **Intel (x86_64)** with the **Qt 6** framework.
 
-This install you first need the `brew` package manager : [https://brew.sh/](https://brew.sh/).
+---
 
-Then open your terminal and run :
+## What is ScanTailor Advanced?
 
+ScanTailor Advanced merges the best features of ScanTailor Featured and ScanTailor Enhanced versions, bringing performance improvements, high-DPI / Retina display support, modern Qt 6 integration, enhanced dewarping, and numerous bug fixes.
+
+---
+
+## Quick Installation
+
+### Option 1: Homebrew (Recommended)
+
+1. Make sure you have [Homebrew](https://brew.sh) installed.
+2. Tap this repository and install `scantailor-advanced`:
+
+```bash
+brew tap AthanasiusOfAlex/scantailor-advanced-osx
+brew install scantailor-advanced
 ```
-brew install yb85/homebrew-tap/scantailor-advanced
 
-# TO RUN IT
-scantailor
+3. Launch ScanTailor:
 
-# OR (detached from the terminal)
+```bash
+scantailor-advanced &
+
+# Or using the 'scantailor' alias:
 scantailor &
-
 ```
 
-If the installation succeeds you will see something like this :
+---
 
-```
-==> Downloading https://formulae.brew.sh/api/formula.jws.json
-==> Fetching downloads for: scantailor-advanced
-✔︎ Bottle Manifest boost (1.90.0)
-                                                                                                                           Downloaded   28.8KB/ 28.8KB
-# [...] MANY QT DEPENDENCIES
+### Option 2: Automated Install Script
 
-✔︎ Formula scantailor-advanced (1.0.19)                                                                                                                      Verified    988.9KB/988.9KB
-✔︎ Bottle boost (1.90.0)                                                                                                                                     Downloaded   62.3MB/ 62.3MB
-✔︎ Bottle cmake (4.2.2)                                                                                                                                      Downloaded   18.9MB/ 18.9MB
-✔︎ Bottle qtwebengine (6.10.1)                                                                                                                               Downloaded  133.1MB/133.1MB
-==> Installing scantailor-advanced from yb85/tap
-==> Installing dependencies for yb85/tap/scantailor-advanced: boost, assimp, dbus, double-conversion, harfbuzz, md4c, qtbase, qtsvg, qtdeclarative, qtshadertools, qt3d, qt5compat, qtcharts, qtconnectivity, qtdatavis3d, qtquicktimeline, qtquick3d, qtgraphs, abseil, protobuf, qtgrpc, qtwebsockets, qthttpserver, little-cms2, libmng, qtimageformats, qtlanguageserver, qtserialport, qtpositioning, qtlocation, qtlottie, qtmultimedia, qtnetworkauth, qtquick3dphysics, qtquickeffectmaker, qtremoteobjects, qtscxml, qtsensors, qtserialbus, qtspeech, litehtml, qttools, qttranslations, hunspell, qtvirtualkeyboard, qtwebchannel, qtwebengine, qtwebview, qt, jpeg, zlib and cmake
-==> Installing yb85/tap/scantailor-advanced dependency: boost
-==> Pouring boost--1.90.0.arm64_sequoia.bottle.tar.gz
-🍺  /opt/homebrew/Cellar/boost/1.90.0: 16,255 files, 362.4MB
-==> Installing yb85/tap/scantailor-advanced dependency: assimp
-==> Pouring assimp--6.0.4.arm64_sequoia.bottle.tar.gz
-🍺  /opt/homebrew/Cellar/assimp/6.0.4: 104 files, 11.1MB
+Run this single command in your Terminal:
 
-# [...] MANY INSTALLS
-
-==> Installing yb85/tap/scantailor-advanced
-==> Setting versioning tag to #release@1.0.19 (build 20260126)
-==> cmake ..
-==> make
-==> make install
-🍺  /opt/homebrew/Cellar/scantailor-advanced/1.0.19: 16 files, 4.9MB, built in 2 minutes 22 seconds
-==> Running `brew cleanup scantailor-advanced`...
-Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`.
-Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/AthanasiusOfAlex/scantailor-advanced-osx/HEAD/install.sh)"
 ```
 
+The script verifies prerequisites, sets up Homebrew environment paths if needed, taps the repository, and installs the latest version.
 
+---
 
-# DEPRECATED (as of 2025)
+### Option 3: Pre-built App Bundle (.dmg)
 
-**Look at the [Releases](https://github.com/yb85/scantailor-advanced-osx/releases) section for a bundled App (macos12 Monterey x64 and macos10 Catalina x64).**
+Download the `.dmg` installer from the [Releases](https://github.com/AthanasiusOfAlex/scantailor-advanced-osx/releases) page and drag **ScanTailor (Advanced)** to your `/Applications` folder.
 
-## Installing via homebrew ##
+> [!NOTE]
+> **macOS Gatekeeper Note for Downloaded Apps:**
+> If macOS warns that the app "cannot be opened because Apple cannot check it for malicious software" or "is damaged", remove the quarantine attribute in Terminal:
+> ```bash
+> xattr -cr "/Applications/ScanTailor (Advanced).app"
+> ```
+> (or right-click the app in Finder and choose **Open**).
 
-### Install script ###
+---
 
-All automated, execute in your terminal :
+## Building a Standalone App Bundle & DMG
+
+This repository includes a standalone bundler that creates a self-contained `.app` bundle and a compressed `.dmg` disk image.
+
+The bundler:
+- Automatically locates the installed `scantailor-advanced` binary.
+- Deploys Qt 6 frameworks and plugins via `macdeployqt`.
+- Automatically copies and relocates all third-party dynamic libraries (`boost`, `libtiff`, `libpng`, `jpeg-turbo`, etc.) into `Contents/Frameworks`.
+- Applies mandatory ad-hoc code signing (`codesign`) required for Apple Silicon AMFI security.
+- Packages a compressed `.dmg` installer with an `/Applications` shortcut.
+
+### Steps to Bundle:
+
+1. Install prerequisites:
+   ```bash
+   brew tap AthanasiusOfAlex/scantailor-advanced-osx
+   brew install scantailor-advanced
+   ```
+
+2. Run the bundler:
+   ```bash
+   cd bundler
+   ./bundle.sh
+   ```
+   *(Or double-click `scantailor_bundler.command` in Finder.)*
+
+3. Verify the bundle integrity:
+   ```bash
+   ./sanity_check.command
+   ```
+
+The output bundle `ScanTailor (Advanced).app` and disk image `ScanTailor-Advanced-1.2.1-arm64.dmg` will be ready in the `bundler/` directory.
+
+---
+
+## Manual Build from Source
+
+If you prefer building directly with CMake without Homebrew's formula runner:
+
+```bash
+# 1. Install dependencies
+brew install cmake boost qt libpng libtiff jpeg-turbo
+
+# 2. Clone upstream ScanTailor Advanced
+git clone https://github.com/ScanTailor-Advanced/scantailor-advanced.git
+cd scantailor-advanced
+
+# 3. Configure and build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF
+cmake --build build -j$(sysctl -n hw.ncpu)
+
+# 4. Install
+sudo cmake --install build
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/yb85/scantailor-advanced-osx/HEAD/install.sh)"
-```
 
-This script tries to install `brew` and `git` if missing. It may ask you to install the command-line developper tools.
-If both these utilities are present, it clones this repository and install the homebrew formula.
+---
 
-To install the `HEAD` and not the latest release run
+## Credits & Upstream
 
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/yb85/scantailor-advanced-osx/HEAD/install.sh)" install --HEAD
-
-```
-
-### Manual Install  ###
-
-
-1. clone the repository
-```
-git clone "https://github.com/yb85/scantailor-advanced-osx.git"
-cd ./scantailor-advanced-osx
-```
-
-2. with [homebrew](https://brew.sh) installed and updated, run :
-
-```
-brew install --formula ./scantailor.rb
-```
-Compilation takes time, you can inspect the logs for more details at `~/Library/Logs/Homebrew/scantailor` with OS X Console.
-
-You should now be able to run Scantailor from the command-line : `scantailor`
-
-You can get the bleeding edge instead of a released version with the `--HEAD` flag :
-
-```
-brew install --formula --HEAD ./scantailor.rb
-```
-
-## Bundling your binary
-To use the bundler, you need the fish shell (`brew install fish`) and the utility macdeployqt to do the linking (installed with qt6). 
-
-1. make sure that QT is correctly linked : `brew link --force qt6`
-2. add the QT bin folder to your fish path : `echo 'set -g fish_user_paths "/usr/local/opt/qt/bin" $fish_user_paths' >> ~/.config/fish/config.fish`
-3. Simply run `bundler/scantailor_bundler.command` (you may have to `chmod 755 bundler/scantailor_bundler.command`)
-
-The bundler script will use the scantailor binary which is in your shell path (the value printed out by `which scantailor`).
+- Upstream Project: [ScanTailor-Advanced/scantailor-advanced](https://github.com/ScanTailor-Advanced/scantailor-advanced)
+- Original ScanTailor by Joseph Artsimovich.
+- macOS Packaging and App Bundler by [AthanasiusOfAlex](https://github.com/AthanasiusOfAlex/scantailor-advanced-osx) (originally maintained by [yb85](https://github.com/yb85/scantailor-advanced-osx)).
